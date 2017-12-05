@@ -34,6 +34,8 @@ ARG AGENT_WORKDIR=/home/jenkins/agent
 
 COPY --from=jenkinsci/slave /usr/share/jenkins /usr/share/jenkins
 
+RUN apk add --no-cache py-pip git openssh sudo && pip install docker-compose
+
 USER jenkins
 ENV AGENT_WORKDIR=${AGENT_WORKDIR}
 RUN mkdir /home/jenkins/.jenkins && mkdir -p ${AGENT_WORKDIR}
@@ -44,7 +46,6 @@ WORKDIR /home/jenkins
 
 COPY --from=jenkinsci/jnlp-slave /usr/local/bin/jenkins-slave /usr/local/bin/jenkins-slave
 
-#USER root
-#CMD ["ping", "127.0.0.1"]
+USER root
 
-ENTRYPOINT ["jenkins-slave"]
+ENTRYPOINT []

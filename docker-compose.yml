@@ -10,6 +10,7 @@ services:
       - "80:8080"
       - "50000:50000"
     volumes:
+      - $HOME/jenkins/.ssh:/var/jenkins_home/.ssh:ro
       - jenkins_home:/var/jenkins_home
     restart: always
   slave:
@@ -17,4 +18,7 @@ services:
       context: .
       dockerfile: ./slave/Dockerfile
     restart: always
-    command: -url "$MASTER_URL" -workDir=/home/jenkins/agent "$AGENT_SECRET" agent-dind
+    privileged: true    
+    volumes:
+      - $HOME/jenkins/.ssh:/home/jenkins/.ssh:ro
+    command: sh -c 'docker-entrypoint.sh dockerd &>/dev/null & sudo -u jenkins jenkins-slave -url "$MASTER_URL" -workDir=/home/jenkins/agent "$AGENT_SECRET" agent-dind'
