@@ -28,7 +28,8 @@ RUN set -x \
 
 ENV HOME /home/jenkins
 RUN addgroup -g 10000 jenkins
-RUN adduser -D -h $HOME -u 10000 -G jenkins jenkins
+RUN addgroup docker
+RUN adduser -D -h $HOME -u 10000 -G jenkins -G docker jenkins
 
 ARG AGENT_WORKDIR=/home/jenkins/agent
 
@@ -47,5 +48,7 @@ WORKDIR /home/jenkins
 COPY --from=jenkinsci/jnlp-slave /usr/local/bin/jenkins-slave /usr/local/bin/jenkins-slave
 
 USER root
+
+RUN touch /var/run/docker.sock && chmod ugo+rw /var/run/docker.sock
 
 ENTRYPOINT []
