@@ -15,8 +15,8 @@ services:
     restart: always
   slave:
     build:
-      context: .
-      dockerfile: ./slave/Dockerfile
+      context: ./slave
+      dockerfile: ./Dockerfile
     restart: always
     privileged: true    
     volumes:

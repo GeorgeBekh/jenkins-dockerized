@@ -35,7 +35,7 @@ ARG AGENT_WORKDIR=/home/jenkins/agent
 
 COPY --from=jenkinsci/slave /usr/share/jenkins /usr/share/jenkins
 
-RUN apk add --no-cache py-pip git openssh sudo && pip install docker-compose
+RUN apk add --no-cache ca-certificates py-pip git openssh sudo && pip install docker-compose
 
 USER jenkins
 ENV AGENT_WORKDIR=${AGENT_WORKDIR}
@@ -50,5 +50,8 @@ COPY --from=jenkinsci/jnlp-slave /usr/local/bin/jenkins-slave /usr/local/bin/jen
 USER root
 
 RUN touch /var/run/docker.sock && chmod ugo+rw /var/run/docker.sock
+
+COPY ./certs/* /usr/local/share/ca-certificates/
+RUN update-ca-certificates
 
 ENTRYPOINT []
