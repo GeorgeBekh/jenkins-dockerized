@@ -1,4 +1,4 @@
-version: '2'
+version: '2.3'
 
 volumes:
   jenkins_home: ~
@@ -21,4 +21,4 @@ services:
     privileged: true    
     volumes:
       - $HOME/jenkins/.ssh:/home/jenkins/.ssh:ro
-    command: sh -c 'docker-entrypoint.sh dockerd &>/dev/null & sudo -u jenkins jenkins-slave -url "$MASTER_URL" -workDir=/home/jenkins/agent "$AGENT_SECRET" agent-dind'
+    command: sh -c 'docker-entrypoint.sh dockerd &>/dev/null & sudo -u jenkins jenkins-slave -url "$MASTER_URL" -workDir=/home/jenkins/agent "$AGENT_SECRET" ${AGENT_NAME:-agent-dind}'
