@@ -35,7 +35,7 @@ ARG AGENT_WORKDIR=/home/jenkins/agent
 
 COPY --from=jenkinsci/slave /usr/share/jenkins /usr/share/jenkins
 
-RUN apk add --no-cache ca-certificates py-pip git openssh sudo && pip install docker-compose
+RUN apk add --no-cache ca-certificates py-pip git openssh sudo bc curl && pip install docker-compose
 
 USER jenkins
 ENV AGENT_WORKDIR=${AGENT_WORKDIR}
